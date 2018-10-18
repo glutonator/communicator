@@ -15,16 +15,20 @@ public class Application {
 //        Logger logger = LoggerFactory.getLogger(Application.class);
         logger.info("Hello World");
 
-        logger.debug("Debug log message");
-        logger.info("Info log message");
-        logger.error("Error log message");
+//        logger.debug("Debug log message");
+//        logger.info("Info log message");
+//        logger.error("Error log message");
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(Config.class);
         ctx.refresh();
 
         Sender sender = ctx.getBean(Sender.class);
-        sender.send();
+//        sender.send();
+
+        Receiver receiver = ctx.getBean(Receiver.class);
+
+
 
 //        ctx.close();
 
