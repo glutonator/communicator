@@ -24,6 +24,9 @@ public class Application {
         ctx.refresh();
 
         Sender sender = ctx.getBean(Sender.class);
+        sender.send();
+
+//        ctx.close();
 
     }
 
