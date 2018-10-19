@@ -24,6 +24,7 @@ public class Application {
         ctx.refresh();
 
         Sender sender = ctx.getBean(Sender.class);
+//        sender.setMessage("ppppp");
 //        sender.send();
 
         Receiver receiver = ctx.getBean(Receiver.class);

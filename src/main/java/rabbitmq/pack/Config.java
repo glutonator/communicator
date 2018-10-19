@@ -20,29 +20,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 // @EnableRabbit umożliwiło używanie Listenerów RabbitMQ !!!!
 @EnableRabbit
 public class Config {
-    @Bean
-    public Sender sender() {
-        return new Sender();
-    }
 
-    @Bean
-    public Receiver receiver() {
-        return new Receiver();
-    }
-
-    @Bean(name = "queue.HelloWord")
-    public Queue hello() {
-        //durable - czy jest stała
-        //exclusive - czy jest dla jedneog konsumenta - jak konsument znika to znika kolejka
-        //autoDelete - jeśli liczba konsumentów spada do zera to kolja jest usuwana, w przypadku utraty połaaczenia nie zostaje usuwana
-        return new Queue("hello", true, false, true);
-    }
-
-    @Bean(name = "queue.NotHelloWord")
-    public Queue nothello() {
-        return new Queue("not hello", true, false, true);
-    }
-
+    //region RabbitMQ Configuration
     /**
      * @return Rabbit-admin bean that allow creating queues, exchanges, etc.
      */
@@ -51,12 +30,8 @@ public class Config {
         return new RabbitAdmin(connectionFactory());
     }
 
-//    @Bean
-//    public String queue(RabbitAdmin rabbitAdmin) {
-//        return rabbitAdmin.declareQueue(new Queue("pppp"));
-//    }
 
-    @Bean
+    @Bean(name = "connectionFactory")
     public AbstractConnectionFactory connectionFactory() {
         AbstractConnectionFactory factory = new CachingConnectionFactory();
         //todo: przenieść konfigurację do pom albo innego zewnętrzengo pliku
@@ -76,7 +51,7 @@ public class Config {
     }
 
 
-    @Bean(name = "STATUS_LISTENER_CONTAINER_FACTORY")
+    @Bean(name = "rabbitListenerContainerFactory")//(name = "LISTENER_CONTAINER_FACTORY")
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory());
@@ -85,5 +60,40 @@ public class Config {
 
         return factory;
     }
+    //endregion
 
+
+    @Bean
+    public Sender sender() {
+        return new Sender();
+    }
+
+    @Bean
+    public Receiver receiver() {
+        return new Receiver();
+    }
+
+    @Bean(name = "queueHelloWord")
+    public Queue hello() {
+        //durable - czy jest stała
+        //exclusive - czy jest dla jedneog konsumenta - jak konsument znika to znika kolejka
+        //autoDelete - jeśli liczba konsumentów spada do zera to kolja jest usuwana, w przypadku utraty połaaczenia nie zostaje usuwana
+        return new Queue("hello", true, false, true);
+    }
+
+    @Bean(name = "queueNotHelloWord")
+    public Queue nothello() {
+        return new Queue("not hello", true, false, true);
+    }
+
+
+    @Bean
+    public String string() {
+        return "qqqqqq";
+    }
+
+    @Bean(name = "message")
+    public String string2() {
+        return "wwwwwww";
+    }
 }
