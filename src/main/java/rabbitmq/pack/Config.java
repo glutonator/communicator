@@ -1,11 +1,15 @@
 package rabbitmq.pack;
 
+
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.core.Queue;
@@ -17,10 +21,24 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 // @EnableRabbit umożliwiło używanie Listenerów RabbitMQ !!!!
 @EnableRabbit
-@PropertySource(value = "classpath:/app.properties",ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:/app.properties", ignoreResourceNotFound = true)
 public class Config {
 
     //region RabbitMQ Configuration
+
+    @Value("${rabbit.address}")
+    private String rabbitAddress;
+
+    @Value("${rabbit.port}")
+    private int rabbitPort;
+
+    @Value("${rabbit.username}")
+    private String rabbitUsername;
+
+    @Value("${rabbit.password}")
+    private String rabbitPassword;
+
+
     /**
      * @return Rabbit-admin bean that allow creating queues, exchanges, etc.
      */
@@ -33,11 +51,10 @@ public class Config {
     @Bean(name = "connectionFactory")
     public AbstractConnectionFactory connectionFactory() {
         AbstractConnectionFactory factory = new CachingConnectionFactory();
-        //todo: przenieść konfigurację do pom albo innego zewnętrzengo pliku
-        factory.setAddresses("localhost");
-        factory.setPort(5672);
-        factory.setUsername("admin");
-        factory.setPassword("admin");
+        factory.setAddresses(rabbitAddress);
+        factory.setPort(rabbitPort);
+        factory.setUsername(rabbitUsername);
+        factory.setPassword(rabbitPassword);
 
         Application.logger.info("CachingConnectionFactory created");
 
@@ -50,6 +67,11 @@ public class Config {
     }
 
 
+    /**
+     * multiple listeners, working with @EnableRabbit and @RabbitListener
+     *
+     * @return
+     */
     @Bean(name = "rabbitListenerContainerFactory")
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
@@ -59,6 +81,18 @@ public class Config {
 
         return factory;
     }
+
+
+    //single listener
+//    @Bean
+//    public SimpleMessageListenerContainer listenerContainer() {
+//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory());
+//        container.setQueueNames("hello");
+//        container.setMessageListener(new MessageListenerAdapter(new Rec()));
+//        return container;
+//    }
+
     //endregion
 
 
@@ -100,4 +134,6 @@ public class Config {
     public String string2() {
         return "wwwwwww";
     }
+
+
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
+
 public class Sender {
 
     @Autowired
@@ -18,7 +19,7 @@ public class Sender {
     private Queue queue;
 
 
-//    @Value("#{'${starting_count}'}")  // or
+    //    @Value("#{'${starting_count}'}")  // or
     @Value("${starting_count}")
     private int count;
 
@@ -36,18 +37,17 @@ public class Sender {
     }
 
     public void send222() {
-        for(String message : messageList) {
+        for (String message : messageList) {
             this.template.convertAndSend(queue.getName(), message);
         }
 
     }
 
-//    @Autowired
+    //    @Autowired
     @Qualifier("message")
     public void setMessage(String message) {
         this.message = message;
     }
-
 
 
 }

@@ -23,13 +23,12 @@ public class Application {
         ctx.register(Config.class);
         ctx.refresh();
 
-        Sender sender = ctx.getBean(Sender.class);
-//        sender.setMessage("ppppp");
-//        sender.send();
 
-        Receiver receiver = ctx.getBean(Receiver.class);
+//        Sender sender = ctx.getBean(Sender.class);
 
+//        Receiver receiver = ctx.getBean(Receiver.class);
 
+//        Rec rec = ctx.getBean(Rec.class);
 
 //        ctx.close();
 
