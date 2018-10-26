@@ -5,13 +5,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
-//@PropertySource("classpath:/applicationprop.properties")
-@PropertySource(value = "classpath:/applicationprop.properties",ignoreResourceNotFound = true)
 public class Sender {
 
     @Autowired
@@ -21,14 +17,12 @@ public class Sender {
     @Qualifier("queueHelloWord")
     private Queue queue;
 
-//    @Value("10")
-//    @Value("#{applicationprop.aaaaa }")
-    @Value("#{'${aaaaa} '}")
+
+//    @Value("#{'${starting_count}'}")  // or
+    @Value("${starting_count}")
     private int count;
 
     @Value("wiadomosc")
-//    @Value("${zmienna.test}")
-//    @Value("#{applicationprop['zmienna'] }")
     private String message;
 
     private List<String> messageList;

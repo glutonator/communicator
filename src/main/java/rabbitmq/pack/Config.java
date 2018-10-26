@@ -6,7 +6,6 @@ import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.core.Queue;
@@ -18,8 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 // @EnableRabbit umożliwiło używanie Listenerów RabbitMQ !!!!
 @EnableRabbit
-@PropertySource(value = "classpath:/applicationprop.properties",ignoreResourceNotFound = true)
-//@PropertySource("/home/filip/Documents/projects/communicator/src/main/resources/applicationprop.properties")
+@PropertySource(value = "classpath:/app.properties",ignoreResourceNotFound = true)
 public class Config {
 
     //region RabbitMQ Configuration
@@ -52,7 +50,7 @@ public class Config {
     }
 
 
-    @Bean(name = "rabbitListenerContainerFactory")//(name = "LISTENER_CONTAINER_FACTORY")
+    @Bean(name = "rabbitListenerContainerFactory")
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory());
@@ -63,33 +61,14 @@ public class Config {
     }
     //endregion
 
-    @Value("#{applicationprop['bbbbb']}")
-    private int test;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
-//        PropertySourcesPlaceholderConfigurer pspc =
-//        new PropertySourcesPlaceholderConfigurer();
-//
-//        Resource[] resources = new ClassPathResource[ ]
-//        { new ClassPathResource( "applicationprop.properties" ) };
-//        pspc.setLocations( resources );
-//        pspc.setIgnoreUnresolvablePlaceholders( true );
-//        return pspc;
         return new PropertySourcesPlaceholderConfigurer();
     }
-//    @Bean
-//    public
-//    static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-//        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-//        propertySourcesPlaceholderConfigurer.setLocations(new ClassPathResource("applicationprop.properties"));
-//
-//        return propertySourcesPlaceholderConfigurer;
-//    }
 
     @Bean
     public Sender sender() {
-        System.out.println(test);
         return new Sender();
     }
 
