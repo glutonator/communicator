@@ -12,7 +12,7 @@ services:
     labels:
       NAME: "rabbitmq"
     volumes:
-    - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
+    - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.communicator.core.config
     environment:
     - RABBITMQ_ERLANG_COOKIE=cluster_cookie
     - RABBITMQ_DEFAULT_USER=admin

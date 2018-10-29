@@ -1,4 +1,4 @@
-package rabbitmq.pack;
+package communicator.core.receiver;
 
 public class Rec {
 

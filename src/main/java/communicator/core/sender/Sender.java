@@ -1,5 +1,6 @@
-package rabbitmq.pack;
+package communicator.core.sender;
 
+import communicator.core.messages.MessageCustom;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ public class Sender {
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public void send() {
         String tmpMessage = "Hello World! " + count + " " + message;
-        this.template.convertAndSend(queue.getName(), tmpMessage);
+        MessageCustom tmp =  new MessageCustom("Hello World!",44,33.45);
+//        this.template.convertAndSend(queue.getName(), tmpMessage);
+        this.template.convertAndSend(queue.getName(), tmp);
         System.out.println(" [x] Sent '" + tmpMessage + "'");
         count++;
     }

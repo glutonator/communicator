@@ -1,4 +1,4 @@
-package rabbitmq.pack;
+package communicator.core.config;
 
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -7,8 +7,8 @@ import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +16,9 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import communicator.core.Application;
+import communicator.core.receiver.Receiver;
+import communicator.core.sender.Sender;
 
 @Configuration
 @EnableScheduling
@@ -63,9 +66,17 @@ public class Config {
 
     @Bean
     public RabbitTemplate rabbitTemplate(AbstractConnectionFactory connectionFactory) {
-        return new RabbitTemplate(connectionFactory);
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(jsonMessageConverter());
+        return rabbitTemplate;
     }
 
+
+
+    @Bean
+    public MessageConverter jsonMessageConverter(){
+        return new Jackson2JsonMessageConverter();
+    }
 
     /**
      * multiple listeners, working with @EnableRabbit and @RabbitListener
@@ -78,6 +89,7 @@ public class Config {
         factory.setConnectionFactory(connectionFactory());
         factory.setConcurrentConsumers(3);
         factory.setMaxConcurrentConsumers(10);
+        factory.setMessageConverter(jsonMessageConverter());
 
         return factory;
     }
