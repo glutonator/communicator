@@ -1,1 +1,1 @@
-# communicator
+# communicator-core
