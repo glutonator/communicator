@@ -6,9 +6,10 @@ import javax.persistence.*;
 //@Table(name = "Person")
 public class Person {
 
+
+    //    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;

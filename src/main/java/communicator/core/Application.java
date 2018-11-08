@@ -24,8 +24,14 @@ public class Application {
         System.out.println("test");
         PersonRepository personRepository = ctx.getBean(PersonRepository.class);
         Person person = new Person("aaaa",88);
+        Person person2 = new Person("bbbb",888);
+        Person person3 = new Person("cccc",8888);
+
         personRepository.save(person);
+        personRepository.save(person2);
+        personRepository.save(person3);
         System.out.println(personRepository.findAll());
+
 
 //        ctx.close();
 
