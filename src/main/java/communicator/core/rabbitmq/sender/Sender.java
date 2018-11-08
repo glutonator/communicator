@@ -1,12 +1,11 @@
-package communicator.core.sender;
+package communicator.core.rabbitmq.sender;
 
-import communicator.core.messages.MessageCustom;
+import communicator.core.rabbitmq.messages.MessageCustom;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class Sender {
 
     private List<String> messageList;
 
-    @Scheduled(fixedDelay = 1000, initialDelay = 500)
+//    @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public void send() {
         String tmpMessage = "Hello World! " + count + " " + message;
         MessageCustom tmp =  new MessageCustom("Hello World!",44,33.45);

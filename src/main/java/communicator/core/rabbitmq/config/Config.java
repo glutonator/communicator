@@ -1,4 +1,4 @@
-package communicator.core.config;
+package communicator.core.rabbitmq.config;
 
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -17,8 +17,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import communicator.core.Application;
-import communicator.core.receiver.Receiver;
-import communicator.core.sender.Sender;
+import communicator.core.rabbitmq.receiver.Receiver;
+import communicator.core.rabbitmq.sender.Sender;
 
 @Configuration
 @EnableScheduling

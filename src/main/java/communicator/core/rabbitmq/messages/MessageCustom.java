@@ -1,4 +1,4 @@
-package communicator.core.messages;
+package communicator.core.rabbitmq.messages;
 
 
 /**
@@ -10,7 +10,9 @@ public class MessageCustom {
 
     private int intField;
 
-    private  double doubleField;
+    private double doubleField;
+
+    private String recipient;
 
     public MessageCustom() {
     }
@@ -25,6 +27,12 @@ public class MessageCustom {
         this.doubleField = doubleField;
     }
 
+    public MessageCustom(String textFiled, int intField, double doubleField, String recipient) {
+        this.textFiled = textFiled;
+        this.intField = intField;
+        this.doubleField = doubleField;
+        this.recipient = recipient;
+    }
 
     public String getTextFiled() {
         return textFiled;
@@ -50,12 +58,21 @@ public class MessageCustom {
         this.doubleField = doubleField;
     }
 
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
     @Override
     public String toString() {
         return "MessageCustom{" +
                 "textFiled='" + textFiled + '\'' +
                 ", intField=" + intField +
                 ", doubleField=" + doubleField +
+                ", recipient='" + recipient + '\'' +
                 '}';
     }
 }

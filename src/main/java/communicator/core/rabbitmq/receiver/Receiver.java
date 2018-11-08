@@ -1,7 +1,7 @@
-package communicator.core.receiver;
+package communicator.core.rabbitmq.receiver;
 
 
-import communicator.core.messages.MessageCustom;
+import communicator.core.rabbitmq.messages.MessageCustom;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
